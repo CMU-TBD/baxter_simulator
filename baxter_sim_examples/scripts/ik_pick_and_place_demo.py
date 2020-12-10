@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Copyright (c) 2013-2015, Rethink Robotics
 # All rights reserved.
@@ -92,7 +92,7 @@ class PickAndPlace(object):
         ikreq.pose_stamp.append(PoseStamped(header=hdr, pose=pose))
         try:
             resp = self._iksvc(ikreq)
-        except (rospy.ServiceException, rospy.ROSException), e:
+        except (rospy.ServiceException, rospy.ROSException) as e:
             rospy.logerr("Service call failed: %s" % (e,))
             return False
         # Check if result valid, and type of seed ultimately used to get solution
@@ -201,7 +201,7 @@ def load_gazebo_models(table_pose=Pose(position=Point(x=1.0, y=0.0, z=0.0)),
         spawn_sdf = rospy.ServiceProxy('/gazebo/spawn_sdf_model', SpawnModel)
         resp_sdf = spawn_sdf("cafe_table", table_xml, "/",
                              table_pose, table_reference_frame)
-    except rospy.ServiceException, e:
+    except rospy.ServiceException as e:
         rospy.logerr("Spawn SDF service call failed: {0}".format(e))
     # Spawn Block URDF
     rospy.wait_for_service('/gazebo/spawn_urdf_model')
@@ -209,7 +209,7 @@ def load_gazebo_models(table_pose=Pose(position=Point(x=1.0, y=0.0, z=0.0)),
         spawn_urdf = rospy.ServiceProxy('/gazebo/spawn_urdf_model', SpawnModel)
         resp_urdf = spawn_urdf("block", block_xml, "/",
                                block_pose, block_reference_frame)
-    except rospy.ServiceException, e:
+    except rospy.ServiceException as e:
         rospy.logerr("Spawn URDF service call failed: {0}".format(e))
 
 def delete_gazebo_models():
@@ -221,7 +221,7 @@ def delete_gazebo_models():
         delete_model = rospy.ServiceProxy('/gazebo/delete_model', DeleteModel)
         resp_delete = delete_model("cafe_table")
         resp_delete = delete_model("block")
-    except rospy.ServiceException, e:
+    except rospy.ServiceException as e:
         rospy.loginfo("Delete Model service call failed: {0}".format(e))
 
 def main():
